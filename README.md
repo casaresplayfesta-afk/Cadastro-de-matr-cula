@@ -39,11 +39,15 @@ document.getElementById('cadastroForm').addEventListener('submit', e=>{
   const cargo=document.getElementById('cargo').value.trim();
   const turno=document.getElementById('turno').value;
 
-  // Salvar no localStorage (simulando banco de dados)
   let colaboradores = JSON.parse(localStorage.getItem('colaboradores')) || [];
+  if(colaboradores.some(c=>c.matricula===matricula)){
+    alert('Já existe um colaborador com esta matrícula!');
+    return;
+  }
+
   let ultimoId = colaboradores.length>0?Math.max(...colaboradores.map(c=>c.id)):0;
   ultimoId++;
-  colaboradores.push({ id:ultimoId, nome, matricula, cargo, turno, inativo:false });
+  colaboradores.push({id:ultimoId, nome, matricula, cargo, turno, inativo:false});
   localStorage.setItem('colaboradores', JSON.stringify(colaboradores));
 
   alert('Colaborador cadastrado com sucesso!');
